@@ -1,0 +1,36 @@
+:root {
+    --bg-color: #f0f2f5;
+    --txt-color: #222;
+    --border-color: #ddd;
+    --d-color: #101010;
+}
+
+body {
+    font-family: "monospace";
+    display: flex;
+    justify-content: center;
+    background: var(--bg-color);
+}
+
+table {
+    border-collapse: collapse;
+    background: white;
+}
+
+td {
+    border: 1px solid var(--border-color);
+    text-align: center;
+    padding: 10px 15px;
+}
+
+.header {
+    background-color: var(--txt-color);
+    color: var(--bg-color);
+    font-weight: bold;
+}
+
+.diagonal {
+    background-color: var(--d-color);
+    color: var(--bg-color);
+    font-weight: bold;
+}
