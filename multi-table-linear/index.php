@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="./assets/style.css">
 </head>
 <body>
-
+<h3>Таблица умножения (Линейный способ)</h3>
 <table>
     <?php
     $size = 10;
