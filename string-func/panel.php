@@ -3,10 +3,8 @@ define("SEPARATOR", "|");
 
 $submissionsFile = "./data/submissions.txt";
 
-// Обработка логического удаления (soft delete)
 if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST["checkedItem"])) {
-    $checkedIndices = $_POST["checkedItem"]; // это порядковые номера строк (индексы) начиная с 0
-
+    $checkedIndices = $_POST["checkedItem"];
     if (file_exists($submissionsFile)) {
         $lines = file(
             $submissionsFile,
@@ -16,7 +14,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST["checkedItem"])) {
         foreach ($lines as $index => $line) {
             $fields = explode(SEPARATOR, $line);
             if (in_array((string) $index, $checkedIndices, true)) {
-                // Меняем статус на "deleted" (последнее поле)
                 if (count($fields) >= 10) {
                     $fields[9] = "deleted";
                 }
@@ -24,7 +21,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST["checkedItem"])) {
             }
             $newLines[] = $line;
         }
-        // Перезаписываем файл
         file_put_contents(
             $submissionsFile,
             implode(PHP_EOL, $newLines) . PHP_EOL,
@@ -44,16 +40,13 @@ if (file_exists($submissionsFile)) {
     );
     foreach ($lines as $index => $line) {
         $fields = explode(SEPARATOR, $line);
-        // Ожидаемый формат: 0 имя, 1 фамилия, 2 email, 3 телефон, 4 тема, 5 оплата, 6 согласие, 7 дата, 8 ip, 9 статус
         if (count($fields) >= 10 && $fields[9] === "active") {
-            // Добавляем индекс для чекбокса
             $fields["_index"] = $index;
             $activeSubmissions[] = $fields;
         }
     }
 }
 
-// Маппинг тем и оплат для читаемого отображения
 $topics = [
     1 => "Бизнес",
     2 => "Технологии",
