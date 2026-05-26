@@ -1,0 +1,17 @@
+CREATE DATABASE IF NOT EXISTS `calendar_app`
+  DEFAULT CHARACTER SET utf8mb4
+  DEFAULT COLLATE utf8mb4_unicode_ci;
+
+USE `calendar_app`;
+
+CREATE TABLE IF NOT EXISTS `tasks` (
+  `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(255) NOT NULL,
+  `type` VARCHAR(50) NOT NULL,
+  `location` VARCHAR(255) DEFAULT NULL,
+  `task_datetime` DATETIME NOT NULL,
+  `duration` INT(10) UNSIGNED NOT NULL DEFAULT 60,
+  `comment` TEXT,
+  `is_completed` TINYINT(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`)
+);
