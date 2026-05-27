@@ -1,10 +1,8 @@
 version: "3.8"
 
 services:
-    # ---------- PHP-FPM (Alpine) ----------
     php:
         build: .
-        # image: php:fpm-alpine
         container_name: calcu-php
         volumes:
             - ./src:/var/www/html
@@ -13,7 +11,6 @@ services:
         depends_on:
             - mysql
 
-    # ---------- Nginx (Alpine) ----------
     nginx:
         image: nginx:alpine
         container_name: calcu-nginx
@@ -27,7 +24,6 @@ services:
         networks:
             - calcu
 
-    # ---------- MySQL (Alpine) ----------
     mysql:
         image: mysql:8.0
         restart: always

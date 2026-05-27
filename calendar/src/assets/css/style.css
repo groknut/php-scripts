@@ -1,0 +1,174 @@
+/* CSS Variables (глобальные) */
+:root {
+    /* Основные цвета */
+    --color-text: #333;
+    --color-border: #ccc;
+    --color-border-dark: #000;
+    --color-bg-body: #fff;
+    --color-bg-table-header: #e0e0e0;
+    --color-bg-table-row-even: #f9f9f9;
+    --color-bg-table-row-hover: #f0f0f0;
+    --color-bg-button-hover: #f0f0f0;
+
+    /* Цвета сообщений */
+    --color-error-text: red;
+    --color-error-bg: #fee;
+    --color-error-border: red;
+    --color-success-text: green;
+    --color-success-bg: #efe;
+    --color-success-border: green;
+
+    /* Отступы и размеры */
+    --spacing-xs: 5px;
+    --spacing-sm: 10px;
+    --spacing-md: 15px;
+    --spacing-lg: 20px;
+    --border-width: 1px;
+    --border-width-thick: 2px;
+    --font-family-base: Arial, sans-serif;
+    --font-size-h1: 1.8rem;
+    --max-width-container: 900px;
+
+    /* Эффекты */
+    --transition-hover: background-color 0.2s ease;
+}
+
+/* Базовые стили */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family-base);
+    max-width: var(--max-width-container);
+    margin: var(--spacing-lg) auto;
+    color: var(--color-text);
+    background-color: var(--color-bg-body);
+}
+
+h1 {
+    font-size: var(--font-size-h1);
+}
+
+a {
+    color: var(--color-text);
+    text-decoration: none;
+}
+
+/* Заголовки блоков */
+.block-title {
+    font-weight: bold;
+    margin: var(--spacing-lg) 0 var(--spacing-sm);
+    border-bottom: var(--border-width-thick) solid var(--color-border-dark);
+    display: inline-block;
+    padding-right: var(--spacing-lg);
+}
+
+/* Контейнеры форм и списков */
+.box {
+    border: var(--border-width) solid var(--color-border-dark);
+    padding: var(--spacing-lg);
+    margin-bottom: 30px;
+}
+
+/* Формы */
+.form-group {
+    margin-bottom: var(--spacing-md);
+    display: flex;
+    align-items: flex-start;
+}
+.form-group label {
+    width: 150px;
+    text-align: right;
+    margin-right: var(--spacing-md);
+    padding-top: var(--spacing-xs);
+}
+.form-group .controls {
+    flex: 1;
+}
+.form-group label:first-child {
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="time"],
+select,
+textarea {
+    width: 100%;
+    padding: 6px;
+    border: var(--border-width) solid var(--color-border);
+}
+
+.short-inputs {
+    display: flex;
+    gap: var(--spacing-sm);
+    width: 300px;
+}
+
+button {
+    padding: 8px var(--spacing-lg);
+    border: var(--border-width-thick) solid var(--color-border-dark);
+    background: var(--color-bg-body);
+    cursor: pointer;
+    font-weight: bold;
+}
+button:hover {
+    background: var(--color-bg-button-hover);
+}
+
+/* Сообщения об ошибках и успехе */
+.error {
+    color: var(--color-error-text);
+    background: var(--color-error-bg);
+    padding: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+    border: var(--border-width) solid var(--color-error-border);
+}
+.success {
+    color: var(--color-success-text);
+    background: var(--color-success-bg);
+    padding: var(--spacing-md);
+    border: var(--border-width) solid var(--color-success-border);
+    margin-bottom: var(--spacing-md);
+}
+.error ul,
+.success ul {
+    margin: 0;
+    padding-left: var(--spacing-lg);
+}
+
+/* Фильтры */
+.filters {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    flex-wrap: wrap;
+}
+.filters select,
+.filters input[type="date"] {
+    width: auto;
+}
+
+/* Таблица */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th,
+td {
+    border: var(--border-width) solid var(--color-border);
+    padding: var(--spacing-sm);
+    text-align: left;
+}
+th {
+    background-color: var(--color-bg-table-header);
+}
+tr:nth-child(even) {
+    background-color: var(--color-bg-table-row-even);
+}
+tr:hover {
+    cursor: pointer;
+    background-color: var(--color-bg-table-row-hover);
+}

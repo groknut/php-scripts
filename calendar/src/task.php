@@ -77,8 +77,10 @@ class Task
         if (!in_array($this->type, $allowedTypes, true)) {
             $errors[] = "Выберите корректный тип задачи";
         }
-        if (empty($this->taskDatetime) || strlen($this->taskDatetime) < 19) {
-            $errors[] = "Укажите корректную дату и время";
+
+        $dt = DateTime::createFromFormat("Y-m-d H:i:s", $this->taskDatetime);
+        if (!$dt || $dt->format("Y-m-d H:i:s") !== $this->taskDatetime) {
+            $errors[] = "Неверная дата/время";
         }
         if ($this->duration <= 0) {
             $errors[] = "Выберите длительность";

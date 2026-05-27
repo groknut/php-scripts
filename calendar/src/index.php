@@ -3,36 +3,18 @@ session_start();
 
 require_once __DIR__ . "/config.php";
 require_once __DIR__ . "/task.php";
+require_once __DIR__ . "/helpers.php";
 
-function e($value)
-{
-    return htmlspecialchars($value ?? "", ENT_QUOTES, "UTF-8");
+$success = hasFlash("success") ? getFlash("success") : false;
+
+$stored = getStoredFormData();
+$formData = $stored["data"];
+$errors = $stored["errors"];
+
+if (empty($formData) && empty($errors)) {
+    $formData["task_date"] = date("Y-m-d");
+    $formData["task_time"] = date("H:00", strtotime("+1 hour"));
 }
-
-$errors = [];
-$success = false;
-$formData = [];
-
-if (isset($_SESSION["flash_success"])) {
-    $success = true;
-    unset($_SESSION["flash_success"]);
-}
-if (isset($_SESSION["form_data"])) {
-    $formData = $_SESSION["form_data"];
-    $errors = $_SESSION["form_errors"] ?? [];
-    unset($_SESSION["form_data"], $_SESSION["form_errors"]);
-}
-
-$taskTypes = ["Встреча", "Звонок", "Совещание", "Дело"];
-
-$durations = [
-    15 => "15 минут",
-    30 => "30 минут",
-    60 => "1 час",
-    120 => "2 часа",
-    240 => "4 часа",
-    480 => "Весь рабочий день (8 ч)",
-];
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $task = new Task([
@@ -49,22 +31,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if (empty($errors)) {
         if ($task->save($dbo)) {
-            $_SESSION["flash_success"] = true;
-            header("Location: index.php");
-            exit();
+            setFlash("success", true);
+            redirect("index.php");
         }
         $errors[] = "Ошибка при сохранении задачи в БД.";
     }
 
-    $_SESSION["form_data"] = $_POST;
-    $_SESSION["form_errors"] = $errors;
-    header("Location: index.php");
-    exit();
-}
-
-if (empty($formData) && empty($errors)) {
-    $formData["task_date"] = date("Y-m-d");
-    $formData["task_time"] = date("H:00", strtotime("+1 hour"));
+    storeFormData($_POST, $errors);
+    redirect("index.php");
 }
 
 $filter = $_GET["filter"] ?? "current";
@@ -72,4 +46,7 @@ $exactDate = $_GET["exact_date"] ?? null;
 
 $tasks = Task::loadList($dbo, $filter, $exactDate);
 
-include __DIR__ . "/index_template.php";
+$taskTypes = getTaskTypes();
+$durations = getDurations();
+
+include __DIR__ . "/views/index.php";

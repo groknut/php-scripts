@@ -3,11 +3,7 @@ session_start();
 
 require_once __DIR__ . "/config.php";
 require_once __DIR__ . "/task.php";
-
-function e($value)
-{
-    return htmlspecialchars($value ?? "", ENT_QUOTES, "UTF-8");
-}
+require_once __DIR__ . "/helpers.php";
 
 $id = isset($_GET["id"]) ? (int) $_GET["id"] : 0;
 $task = Task::getById($dbo, $id);
@@ -18,17 +14,6 @@ if (!$task) {
 
 $errors = [];
 $success = false;
-
-$taskTypes = ["Встреча", "Звонок", "Совещание", "Дело"];
-
-$durations = [
-    15 => "15 минут",
-    30 => "30 минут",
-    60 => "1 час",
-    120 => "2 часа",
-    240 => "4 часа",
-    480 => "Весь рабочий день (8 ч)",
-];
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $updatedData = [
@@ -48,23 +33,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if (empty($errors)) {
         if ($updatedTask->save($dbo)) {
-            $_SESSION["flash_success"] = true;
-            header("Location: edit.php?id=" . $task->getId());
-            exit();
-        } else {
-            $errors[] = "Не удалось обновить задачу.";
+            setFlash("success", true);
+            redirect("edit.php?id=" . $task->getId());
         }
+        $errors[] = "Не удалось обновить задачу.";
     }
     $task = $updatedTask;
 }
 
-if (isset($_SESSION["flash_success"])) {
-    $success = true;
-    unset($_SESSION["flash_success"]);
+if (hasFlash("success")) {
+    $success = getFlash("success");
 }
 
 $dt = strtotime($task->getTaskDatetime());
 $taskDate = date("Y-m-d", $dt);
 $taskTime = date("H:i", $dt);
 
-include __DIR__ . "/edit_template.php";
+$taskTypes = getTaskTypes();
+$durations = getDurations();
+
+include __DIR__ . "/views/edit.php";

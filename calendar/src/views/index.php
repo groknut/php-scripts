@@ -3,30 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Мой календарь</title>
-    <style>
-        body { font-family: Arial, sans-serif; max-width: 900px; margin: 20px auto; color: #333; }
-        .block-title { font-weight: bold; margin: 20px 0 10px; border-bottom: 2px solid #000; display: inline-block; padding-right: 20px; }
-        .box { border: 1px solid #000; padding: 20px; margin-bottom: 30px; }
-        .form-group { margin-bottom: 15px; display: flex; align-items: flex-start; }
-        .form-group label { width: 150px; text-align: right; margin-right: 15px; padding-top: 5px; }
-        .form-group .controls { flex: 1; }
-        input[type="text"], input[type="date"], input[type="time"], select, textarea {
-            width: 100%; padding: 6px; box-sizing: border-box; border: 1px solid #ccc;
-        }
-        .short-inputs { display: flex; gap: 10px; width: 300px; }
-        button { padding: 8px 20px; border: 2px solid #000; background: #fff; cursor: pointer; font-weight: bold; }
-
-        .error { color: red; background: #fee; padding: 10px; margin-bottom: 15px; border: 1px solid red; }
-        .success { color: green; background: #efe; padding: 15px; border: 1px solid green; margin-bottom: 15px; }
-
-        .filters { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; flex-wrap: wrap; }
-        .filters select, .filters input[type="date"] { width: auto; }
-
-        table { width: 100%; border-collapse: collapse; }
-        th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
-        th { background-color: #e0e0e0; }
-        tr:nth-child(even) { background-color: #f9f9f9; }
-    </style>
+    <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
 
@@ -40,7 +17,7 @@
 
         <?php if (!empty($errors)): ?>
             <div class="error">
-                <ul style="margin: 0; padding-left: 20px;">
+                <ul>
                     <?php foreach ($errors as $error): ?>
                         <li><?= e($error) ?></li>
                     <?php endforeach; ?>
@@ -106,7 +83,7 @@
 ] ?? 60) === $val
     ? "selected"
     : "" ?>>
-                                <?= $label ?>
+                                <?= e($label) ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
@@ -183,6 +160,16 @@
             </tbody>
         </table>
     </div>
+
+    <script>
+        document.querySelectorAll('tbody tr').forEach(row => {
+            row.addEventListener('click', () => {
+                const link = row.querySelector('a');
+                if (link) window.location.href = link.href;
+            });
+        });
+    </script>
+
 
 </body>
 </html>

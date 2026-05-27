@@ -3,20 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Карточка задачи</title>
-    <style>
-        body { font-family: Arial, sans-serif; max-width: 900px; margin: 20px auto; color: #333; }
-        .box { border: 1px solid #000; padding: 20px; }
-        .form-group { margin-bottom: 15px; display: flex; align-items: flex-start; }
-        .form-group label { width: 150px; text-align: right; margin-right: 15px; padding-top: 5px; font-weight: bold; }
-        .form-group .controls { flex: 1; }
-        input[type="text"], input[type="date"], input[type="time"], select, textarea {
-            width: 100%; padding: 6px; box-sizing: border-box; border: 1px solid #ccc;
-        }
-        .short-inputs { display: flex; gap: 10px; width: 300px; }
-        button { padding: 8px 20px; border: 2px solid #000; background: #fff; cursor: pointer; font-weight: bold; }
-        .error { color: red; background: #fee; padding: 10px; margin-bottom: 15px; border: 1px solid red; }
-        .success { color: green; background: #efe; padding: 15px; border: 1px solid green; margin-bottom: 15px; }
-    </style>
+    <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
 
@@ -95,7 +82,7 @@
 $val
     ? "selected"
     : "" ?>>
-                                <?= $label ?>
+                                <?= e($label) ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
